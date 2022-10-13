@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <script src="iinValidator.js" type="application/javascript"></script>
+    <script src="ecp.js" type="application/javascript"></script>
+    <script src="index.js" type="application/javascript"></script>
+</head>
+<body>
+    <input id="iin" type="text">
+    <button id="select-btn">Select EDS file</button>
+    <div id="error" style="color: red; display: none;">Incorrect IIN</div>
+    <br />
+    <br />
+    <div id="xml-container" style="display: none;">
+        <div>XML</div>
+        <div>
+            <textarea name="xml" id="xml" cols="100" rows="10" disabled></textarea>
+        </div>
+    </div>
+    <br />
+    <div id="base64-container" style="display: none;">
+        <div>Base64</div>
+        <div>
+            <textarea name="base64" id="base64" cols="100" rows="10" disabled></textarea>
+        </div>
+    </div>
+</body>
+</html>

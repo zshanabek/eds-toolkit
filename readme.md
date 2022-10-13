@@ -1,0 +1,1 @@
+To use the extractor, just open the `index.html` file.
