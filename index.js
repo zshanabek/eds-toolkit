@@ -1,3 +1,4 @@
+
 const ecpModel = EcpModel;
 
 document.addEventListener('DOMContentLoaded', function(){
@@ -53,4 +54,12 @@ document.addEventListener('DOMContentLoaded', function(){
     // Array.prototype.forEach.call(document.querySelectorAll("#form_error_message_frontend + div > div:last-child label"), function(e){
     //     e.classList.add('last');
     // });
+
+    document.getElementById('btn-sign-string').addEventListener('click', function() {
+        const str = document.getElementById('string-to-sign').value;
+        console.log(str);
+        connectAndSign(str).then((res) => {
+            document.getElementById('signedStringBase64').innerHTML = res;
+        });
+    });
 });
