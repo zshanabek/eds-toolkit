@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function(){
     document.getElementById('btn-sign-string').addEventListener('click', function() {
         const str = document.getElementById('string-to-sign').value;
         console.log(str);
-        connectAndSign(str).then((res) => {
+        connectAndSign(ecpModel.b64EncodeUnicode(str)).then((res) => {
             document.getElementById('signedStringBase64').innerHTML = res;
         });
     });
