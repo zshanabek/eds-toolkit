@@ -333,9 +333,10 @@ const EcpModel = {
         this.cb_success = cb_success;
     },
     createCMSSignature(data = {}, {cb_start, cb_canceled, cb_error, cb_success}) {
+        const raw = typeof data === 'string' ? data : JSON.stringify(data);
         this.data = {
             type: "CMS",
-            data: this.b64EncodeUnicode(JSON.stringify(data)),
+            data: this.b64EncodeUnicode(raw),
             dataType: 'object'
         }
         this.initSettings({cb_start, cb_canceled, cb_error, cb_success})

@@ -56,9 +56,14 @@ document.addEventListener('DOMContentLoaded', function () {
     // });
 
     document.getElementById('btn-sign-string').addEventListener('click', function () {
+        const input = document.getElementById('string-to-sign').value;
+        let data;
         try {
-            const json = JSON.parse(document.getElementById('string-to-sign').value);
-            ecpModel.createCMSSignature(json, {
+            data = JSON.parse(input);
+        } catch (e) {
+            data = input;
+        }
+        ecpModel.createCMSSignature(data, {
                 cb_start: () => {
                     console.warn('Start ECP');
                 },
@@ -76,8 +81,5 @@ document.addEventListener('DOMContentLoaded', function () {
                     document.getElementById('signedStringBase64').innerHTML = xml;
                 }
             })
-        } catch (e) {
-            alert(e);
-        }
     });
 });
