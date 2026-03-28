@@ -8,7 +8,7 @@
     <!-- Primary SEO -->
     <title>EDS Toolkit — Извлечение и подписание ЭЦП Казахстана</title>
     <meta name="description"
-        content="Онлайн-инструмент для извлечения ЭЦП-сертификата и подписания JSON-данных через NCALayer. Поддержка ИИН, XML и Base64 форматов.">
+        content="Инструмент для тестирования бэкенд-сервисов: генерируйте CMS/CAdES-подпись через NCALayer и вставляйте Base64-результат в Postman-запросы.">
     <meta name="keywords"
         content="ЭЦП, электронная цифровая подпись, NCALayer, НУЦ, ИИН, Казахстан, EDS, PKI, CAdES, подписание документов">
     <meta name="author" content="EDS Toolkit">
@@ -49,24 +49,27 @@
         <header class="mb-8">
             <h1 class="text-2xl font-bold text-gray-900 mb-2">EDS Toolkit</h1>
             <p class="text-sm text-gray-500 leading-relaxed">
-                <span class="font-medium text-gray-700">ЭЦП (Электронная цифровая подпись)</span> —
-                PKI-сертификат, выданный <span class="font-medium text-gray-700">Национальным Удостоверяющим Центром
-                    (НУЦ)</span>
-                Республики Казахстан. Используется для подтверждения личности и подписания документов.
+                Инструмент для <span class="font-medium text-gray-700">тестирования бэкенд-сервисов</span>:
+                подпишите данные через NCALayer, скопируйте CMS (Base64) и вставьте в Postman-запрос.
+                <br class="hidden md:block">
+                <span class="font-medium text-gray-700">ЭЦП</span> — PKI-сертификат
+                <span class="font-medium text-gray-700">НУЦ РК</span>, используется для подтверждения личности в госсервисах.
             </p>
         </header>
 
         <!-- EDS Certificate Section -->
         <section aria-labelledby="extract-heading" class="card">
-            <h2 id="extract-heading" class="card-title">Извлечение ЭЦП-сертификата</h2>
+            <h2 id="extract-heading" class="card-title">Аутентификационная подпись</h2>
             <div class="flex items-center gap-3">
                 <label for="iin" class="sr-only">ИИН</label>
                 <input id="iin" type="text" placeholder="Введите ИИН" autocomplete="off" inputmode="numeric"
                     maxlength="12"
                     class="flex-1 border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" />
-                <button id="select-btn" class="btn-primary">Выбрать файл ЭЦП</button>
+                <button id="select-btn" class="btn-primary">Подписать</button>
             </div>
+            <p class="mt-2 text-xs text-gray-400">ИИН включается в подписываемые данные как содержимое аутентификационного пакета — без него нечего подписывать.</p>
             <p id="error" role="alert" class="mt-2 text-sm text-red-500 hidden">Неверный ИИН</p>
+            <p id="error-ncalayer" role="alert" class="mt-2 text-sm text-red-500 hidden">NCALayer не запущен. Запустите NCALayer и повторите попытку.</p>
         </section>
 
         <!-- XML Output -->
@@ -78,27 +81,34 @@
 
         <!-- Base64 Output -->
         <section id="base64-container" aria-labelledby="base64-heading" class="card hidden">
-            <h2 id="base64-heading" class="card-title">Base64</h2>
+            <div class="flex items-center justify-between mb-4">
+                <h2 id="base64-heading" class="card-title !mb-0">Base64</h2>
+                <button id="btn-copy-base64" class="text-xs text-blue-600 hover:text-blue-800 transition">Скопировать</button>
+            </div>
             <textarea name="base64" id="base64" rows="8" disabled aria-label="XML в формате Base64"
                 class="textarea-disabled"></textarea>
         </section>
 
         <!-- Signer Section -->
         <section id="string-signer-container" aria-labelledby="signer-heading" class="card !mb-0">
-            <h2 id="signer-heading" class="card-title">Подписание данных</h2>
+            <h2 id="signer-heading" class="card-title">Подписание данных (CMS)</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
-                    <label for="string-to-sign" class="block text-xs text-gray-500 mb-1">Данные для подписания</label>
+                    <label for="string-to-sign" class="block text-xs text-gray-500 mb-1">Данные для подписания (JSON, текст, XML)</label>
                     <textarea name="string-to-sign" id="string-to-sign" rows="8" aria-label="Данные для подписания"
                         class="textarea-input"></textarea>
                 </div>
                 <div>
-                    <label for="signedStringBase64" class="block text-xs text-gray-500 mb-1">Подписанные данные (Base64)</label>
+                    <div class="flex items-center justify-between mb-1">
+                        <label for="signedStringBase64" class="block text-xs text-gray-500">CMS подпись (Base64) — вставьте в Postman</label>
+                        <button id="btn-copy-cms" class="text-xs text-blue-600 hover:text-blue-800 transition disabled:opacity-30" disabled>Скопировать</button>
+                    </div>
                     <textarea name="base64" id="signedStringBase64" rows="8" disabled
                         aria-label="Подписанные данные в формате Base64" class="textarea-disabled"></textarea>
                 </div>
             </div>
             <button id="btn-sign-string" class="btn-primary">Подписать данные</button>
+            <p id="error-ncalayer-cms" role="alert" class="mt-3 text-sm text-red-500 hidden">NCALayer не запущен. Запустите NCALayer и повторите попытку.</p>
         </section>
 
     </main>
