@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
 <html>
+
 <head>
     <script src="ncalayer-js-client/ncalayer-client.js" type="application/javascript"></script>
     <script src="iinValidator.js" type="application/javascript"></script>
@@ -7,6 +8,7 @@
     <script src="connectAndSign.js" type="application/javascript"></script>
     <script src="index.js" type="application/javascript"></script>
 </head>
+
 <body>
     <input id="iin" type="text">
     <button id="select-btn">Select EDS file</button>
@@ -33,12 +35,13 @@
         <h5>Sign string</h5>
         <div>
             <textarea name="string-to-sign" id="string-to-sign" cols="30" rows="10"></textarea>
-            <button id="btn-sign-string">Sign string</button>
+            <button id="btn-sign-string">Sign json</button>
         </div>
         <div>
-            <p>signed string base64</p>
+            <p>signed json base64</p>
             <textarea name="base64" id="signedStringBase64" cols="100" rows="10" disabled></textarea>
         </div>
     </div>
 </body>
+
 </html>

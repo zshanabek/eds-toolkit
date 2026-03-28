@@ -1,9 +1,9 @@
 
 const ecpModel = EcpModel;
 
-document.addEventListener('DOMContentLoaded', function(){
+document.addEventListener('DOMContentLoaded', function () {
 
-    document.getElementById('select-btn').addEventListener('click', function() {
+    document.getElementById('select-btn').addEventListener('click', function () {
         document.getElementById('error').style.display = 'none';
         document.getElementById('xml-container').style.display = 'none';
         document.getElementById('base64-container').style.display = 'none';
@@ -55,11 +55,29 @@ document.addEventListener('DOMContentLoaded', function(){
     //     e.classList.add('last');
     // });
 
-    document.getElementById('btn-sign-string').addEventListener('click', function() {
-        const str = document.getElementById('string-to-sign').value;
-        console.log(str);
-        connectAndSign(ecpModel.b64EncodeUnicode(str)).then((res) => {
-            document.getElementById('signedStringBase64').innerHTML = res;
-        });
+    document.getElementById('btn-sign-string').addEventListener('click', function () {
+        try {
+            const json = JSON.parse(document.getElementById('string-to-sign').value);
+            ecpModel.createCMSSignature(json, {
+                cb_start: () => {
+                    console.warn('Start ECP');
+                },
+                cb_canceled: () => {
+                    console.warn('Canceled ECP');
+                },
+                cb_error: () => {
+                    console.warn('Some Error ECP');
+                },
+                cb_success: async (xml) => {
+                    if (xml.length < 400) {
+                        console.error('Произошла ошибка повторите подпись эцп');
+                        return;
+                    }
+                    document.getElementById('signedStringBase64').innerHTML = xml;
+                }
+            })
+        } catch (e) {
+            alert(e);
+        }
     });
 });
