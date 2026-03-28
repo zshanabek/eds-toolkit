@@ -1,7 +1,21 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDS Extractor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style type="text/tailwindcss">
+        @layer components {
+            .card       { @apply bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-6; }
+            .card-title { @apply text-sm font-semibold uppercase tracking-wide text-gray-500 mb-4; }
+            .textarea   { @apply w-full font-mono text-sm rounded-lg p-3 resize-none focus:outline-none border; }
+            .textarea-disabled { @apply textarea bg-gray-50 border-gray-200; }
+            .textarea-input    { @apply textarea border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition; }
+            .btn-primary { @apply bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-5 py-2 rounded-lg transition; }
+        }
+    </style>
     <script src="ncalayer-js-client/ncalayer-client.js" type="application/javascript"></script>
     <script src="iinValidator.js" type="application/javascript"></script>
     <script src="ecp.js" type="application/javascript"></script>
@@ -9,37 +23,54 @@
     <script src="index.js" type="application/javascript"></script>
 </head>
 
-<body>
-    <input id="iin" type="text">
-    <button id="select-btn">Select EDS file</button>
-    <div id="error" style="color: red; display: none;">Incorrect IIN</div>
-    <br />
-    <br />
-    <div id="xml-container" style="display: none;">
-        <div>XML</div>
-        <div>
-            <textarea name="xml" id="xml" cols="100" rows="10" disabled></textarea>
+<body class="min-h-screen bg-gray-50 text-gray-800">
+    <div class="max-w-4xl mx-auto px-4 py-10">
+        <div class="mb-8">
+            <h1 class="text-2xl font-bold text-gray-900 mb-2">EDS Extractor</h1>
+            <p class="text-sm text-gray-500 leading-relaxed">
+                <span class="font-medium text-gray-700">EDS</span> (Электронная цифровая подпись) is Kazakhstan's
+                <span class="font-medium text-gray-700">Electronic Digital Signature</span> — a PKI-based certificate
+                issued by the National Certification Authority (NCA)
+            </p>
         </div>
-    </div>
-    <br />
-    <div id="base64-container" style="display: none;">
-        <div>Base64</div>
-        <div>
-            <textarea name="base64" id="base64" cols="100" rows="10" disabled></textarea>
+
+        <!-- EDS Section -->
+        <div class="card">
+            <h2 class="card-title">Extract EDS Certificate</h2>
+            <div class="flex items-center gap-3">
+                <input id="iin" type="text" placeholder="Enter IIN"
+                    class="flex-1 border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" />
+                <button id="select-btn" class="btn-primary">Select EDS file</button>
+            </div>
+            <p id="error" class="mt-2 text-sm text-red-500 hidden">Incorrect IIN</p>
         </div>
-    </div>
-    <br />
-    <br />
-    <br />
-    <div id="string-signer-container">
-        <h5>Sign string</h5>
-        <div>
-            <textarea name="string-to-sign" id="string-to-sign" cols="30" rows="10"></textarea>
-            <button id="btn-sign-string">Sign json</button>
+
+        <!-- XML Output -->
+        <div id="xml-container" class="card hidden">
+            <h2 class="card-title">XML</h2>
+            <textarea name="xml" id="xml" rows="8" disabled class="textarea-disabled"></textarea>
         </div>
-        <div>
-            <p>signed json base64</p>
-            <textarea name="base64" id="signedStringBase64" cols="100" rows="10" disabled></textarea>
+
+        <!-- Base64 Output -->
+        <div id="base64-container" class="card hidden">
+            <h2 class="card-title">Base64</h2>
+            <textarea name="base64" id="base64" rows="8" disabled class="textarea-disabled"></textarea>
+        </div>
+
+        <!-- String Signer Section -->
+        <div id="string-signer-container" class="card !mb-0">
+            <h2 class="card-title">Sign String</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label class="block text-xs text-gray-500 mb-1">Input JSON</label>
+                    <textarea name="string-to-sign" id="string-to-sign" rows="8" class="textarea-input"></textarea>
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-500 mb-1">Signed JSON (Base64)</label>
+                    <textarea name="base64" id="signedStringBase64" rows="8" disabled class="textarea-disabled"></textarea>
+                </div>
+            </div>
+            <button id="btn-sign-string" class="btn-primary">Sign JSON</button>
         </div>
     </div>
 </body>
