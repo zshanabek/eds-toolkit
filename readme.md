@@ -1,4 +1,4 @@
-# EDS Extractor
+# EDS Toolkit
 
 Браузерный инструмент для работы с **Электронной Цифровой Подписью (ЭЦП)** Казахстана через локальное приложение **NCALayer**.
 
@@ -34,7 +34,7 @@
 ## Демо
 
 Проект доступен онлайн через GitHub Pages:
-**<https://zshanabek.github.io/eds-extractor/>**
+**<https://zshanabek.github.io/eds-toolkit/>**
 
 ---
 

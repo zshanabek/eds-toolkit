@@ -6,17 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Primary SEO -->
-    <title>EDS Extractor — Извлечение и подписание ЭЦП Казахстана</title>
+    <title>EDS Toolkit — Извлечение и подписание ЭЦП Казахстана</title>
     <meta name="description"
         content="Онлайн-инструмент для извлечения ЭЦП-сертификата и подписания JSON-данных через NCALayer. Поддержка ИИН, XML и Base64 форматов.">
     <meta name="keywords"
         content="ЭЦП, электронная цифровая подпись, NCALayer, НУЦ, ИИН, Казахстан, EDS, PKI, CAdES, подписание документов">
-    <meta name="author" content="EDS Extractor">
+    <meta name="author" content="EDS Toolkit">
     <meta name="robots" content="index, follow">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="EDS Extractor — Извлечение и подписание ЭЦП Казахстана">
+    <meta property="og:title" content="EDS Toolkit — Извлечение и подписание ЭЦП Казахстана">
     <meta property="og:description"
         content="Онлайн-инструмент для извлечения ЭЦП-сертификата и подписания JSON-данных через NCALayer. Поддержка ИИН, XML и Base64 форматов.">
     <meta property="og:locale" content="ru_RU">
@@ -47,7 +47,7 @@
     <main class="max-w-4xl mx-auto px-4 py-10">
 
         <header class="mb-8">
-            <h1 class="text-2xl font-bold text-gray-900 mb-2">EDS Extractor</h1>
+            <h1 class="text-2xl font-bold text-gray-900 mb-2">EDS Toolkit</h1>
             <p class="text-sm text-gray-500 leading-relaxed">
                 <span class="font-medium text-gray-700">ЭЦП (Электронная цифровая подпись)</span> —
                 PKI-сертификат, выданный <span class="font-medium text-gray-700">Национальным Удостоверяющим Центром
@@ -83,20 +83,19 @@
                 class="textarea-disabled"></textarea>
         </section>
 
-        <!-- JSON Signer Section -->
+        <!-- Signer Section -->
         <section id="string-signer-container" aria-labelledby="signer-heading" class="card !mb-0">
             <h2 id="signer-heading" class="card-title">Подписание данных</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
-                    <label for="string-to-sign" class="block text-xs text-gray-500 mb-1">Входной JSON</label>
-                    <textarea name="string-to-sign" id="string-to-sign" rows="8" aria-label="JSON для подписания"
+                    <label for="string-to-sign" class="block text-xs text-gray-500 mb-1">Данные для подписания</label>
+                    <textarea name="string-to-sign" id="string-to-sign" rows="8" aria-label="Данные для подписания"
                         class="textarea-input"></textarea>
                 </div>
                 <div>
-                    <label for="signedStringBase64" class="block text-xs text-gray-500 mb-1">Подписанный JSON
-                        (Base64)</label>
+                    <label for="signedStringBase64" class="block text-xs text-gray-500 mb-1">Подписанные данные (Base64)</label>
                     <textarea name="base64" id="signedStringBase64" rows="8" disabled
-                        aria-label="Подписанный JSON в формате Base64" class="textarea-disabled"></textarea>
+                        aria-label="Подписанные данные в формате Base64" class="textarea-disabled"></textarea>
                 </div>
             </div>
             <button id="btn-sign-string" class="btn-primary">Подписать данные</button>
@@ -109,7 +108,7 @@
     {
         "@context": "https://schema.org",
         "@type": "WebApplication",
-        "name": "EDS Extractor",
+        "name": "EDS Toolkit",
         "description": "Инструмент для извлечения ЭЦП-сертификата и подписания JSON-данных через NCALayer (НУЦ Казахстана).",
         "applicationCategory": "SecurityApplication",
         "operatingSystem": "Any",
