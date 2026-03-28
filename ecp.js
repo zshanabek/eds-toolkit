@@ -295,8 +295,8 @@ const EcpModel = {
     /**
      * signatureData() подписание данных ЭЦП
      */
-    signatureXml: function (xml, {cb_start, cb_canceled, cb_error, cb_success}) {
-        this.initSettings({cb_start, cb_canceled, cb_error, cb_success})
+    signatureXml: function (xml, { cb_start, cb_canceled, cb_error, cb_success }) {
+        this.initSettings({ cb_start, cb_canceled, cb_error, cb_success })
         this.data = {
             type: "JSON",
             data: xml
@@ -306,8 +306,8 @@ const EcpModel = {
     /**
      * signatureData() подписание данных ЭЦП с помощью json
      */
-    signatureData: function (data = {}, {cb_start, cb_canceled, cb_error, cb_success}) {
-        this.initSettings({cb_start, cb_canceled, cb_error, cb_success})
+    signatureData: function (data = {}, { cb_start, cb_canceled, cb_error, cb_success }) {
+        this.initSettings({ cb_start, cb_canceled, cb_error, cb_success })
         this.data = {
             type: "JSON",
             data
@@ -321,25 +321,25 @@ const EcpModel = {
             }));
     },
     initSettings({
-                     cb_start = () => {},
-                     cb_canceled = () => {},
-                     cb_error = () => {},
-                     cb_success = () => {}
-                 }, method = "SIGNATURE") {
+        cb_start = () => { },
+        cb_canceled = () => { },
+        cb_error = () => { },
+        cb_success = () => { }
+    }, method = "SIGNATURE") {
         this.method = method;
         this.cb_start = cb_start;
         this.cb_canceled = cb_canceled;
         this.cb_error = cb_error;
         this.cb_success = cb_success;
     },
-    createCMSSignature(data = {}, {cb_start, cb_canceled, cb_error, cb_success}) {
+    createCMSSignature(data = {}, { cb_start, cb_canceled, cb_error, cb_success }) {
         const raw = typeof data === 'string' ? data : JSON.stringify(data);
         this.data = {
             type: "CMS",
             data: this.b64EncodeUnicode(raw),
             dataType: 'object'
         }
-        this.initSettings({cb_start, cb_canceled, cb_error, cb_success})
+        this.initSettings({ cb_start, cb_canceled, cb_error, cb_success })
         this.runProcess();
     },
     selectSignType: function (jwt_token, cb_start, cb_error, cb_success) {
@@ -350,7 +350,7 @@ const EcpModel = {
                 jwt_token: jwt_token,
             }
         };
-        this.initSettings({cb_start, cb_error, cb_success}, "AUTHENTICATION")
+        this.initSettings({ cb_start, cb_error, cb_success }, "AUTHENTICATION")
 
         this.runProcess();
     },

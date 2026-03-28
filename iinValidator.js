@@ -1,5 +1,5 @@
 const isIinValid = function (iin) {
-    if(iin) {
+    if (iin) {
         if (iin.match(/\D/)) {
             return false;
         }

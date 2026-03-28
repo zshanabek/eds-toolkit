@@ -34,7 +34,7 @@
 ## Демо
 
 Проект доступен онлайн через GitHub Pages:
-**https://zshanabek.github.io/eds-extractor/**
+**<https://zshanabek.github.io/eds-extractor/>**
 
 ---
 

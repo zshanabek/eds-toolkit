@@ -41,19 +41,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     console.error('Произошла ошибка NCALayer');
                     return;
                 }
-                // this.saveEcpHash(encodedBase64XmlEcp);
             });
     });
-
-
-    // document.getElementById('select-btn')
-
-    // if((e = document.querySelector("#form_error_message_frontend + div > div:last-child label")) !== null)
-    //     e.classList.add('last'); // Аналог выборки и присвоения класса
-    // // Если элементов будет много
-    // Array.prototype.forEach.call(document.querySelectorAll("#form_error_message_frontend + div > div:last-child label"), function(e){
-    //     e.classList.add('last');
-    // });
 
     document.getElementById('btn-sign-string').addEventListener('click', function () {
         const input = document.getElementById('string-to-sign').value;
@@ -64,22 +53,22 @@ document.addEventListener('DOMContentLoaded', function () {
             data = input;
         }
         ecpModel.createCMSSignature(data, {
-                cb_start: () => {
-                    console.warn('Start ECP');
-                },
-                cb_canceled: () => {
-                    console.warn('Canceled ECP');
-                },
-                cb_error: () => {
-                    console.warn('Some Error ECP');
-                },
-                cb_success: async (xml) => {
-                    if (xml.length < 400) {
-                        console.error('Произошла ошибка повторите подпись эцп');
-                        return;
-                    }
-                    document.getElementById('signedStringBase64').innerHTML = xml;
+            cb_start: () => {
+                console.warn('Start ECP');
+            },
+            cb_canceled: () => {
+                console.warn('Canceled ECP');
+            },
+            cb_error: () => {
+                console.warn('Some Error ECP');
+            },
+            cb_success: async (xml) => {
+                if (xml.length < 400) {
+                    console.error('Произошла ошибка повторите подпись эцп');
+                    return;
                 }
-            })
+                document.getElementById('signedStringBase64').innerHTML = xml;
+            }
+        })
     });
 });
