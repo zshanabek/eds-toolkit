@@ -1,78 +1,122 @@
-<!DOCTYPE HTML>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ru">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EDS Extractor</title>
+
+    <!-- Primary SEO -->
+    <title>EDS Extractor — Извлечение и подписание ЭЦП Казахстана</title>
+    <meta name="description" content="Онлайн-инструмент для извлечения ЭЦП-сертификата и подписания JSON-данных через NCALayer. Поддержка ИИН, XML и Base64 форматов.">
+    <meta name="keywords" content="ЭЦП, электронная цифровая подпись, NCALayer, НУЦ, ИИН, Казахстан, EDS, PKI, CAdES, подписание документов">
+    <meta name="author" content="EDS Extractor">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="EDS Extractor — Извлечение и подписание ЭЦП Казахстана">
+    <meta property="og:description" content="Онлайн-инструмент для извлечения ЭЦП-сертификата и подписания JSON-данных через NCALayer. Поддержка ИИН, XML и Base64 форматов.">
+    <meta property="og:locale" content="ru_RU">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="/">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <style type="text/tailwindcss">
         @layer components {
-            .card       { @apply bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-6; }
-            .card-title { @apply text-sm font-semibold uppercase tracking-wide text-gray-500 mb-4; }
-            .textarea   { @apply w-full font-mono text-sm rounded-lg p-3 resize-none focus:outline-none border; }
+            .card          { @apply bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-6; }
+            .card-title    { @apply text-sm font-semibold uppercase tracking-wide text-gray-500 mb-4; }
+            .textarea      { @apply w-full font-mono text-sm rounded-lg p-3 resize-none focus:outline-none border; }
             .textarea-disabled { @apply textarea bg-gray-50 border-gray-200; }
             .textarea-input    { @apply textarea border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition; }
-            .btn-primary { @apply bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-5 py-2 rounded-lg transition; }
+            .btn-primary   { @apply bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-5 py-2 rounded-lg transition; }
         }
     </style>
+
     <script src="ncalayer-js-client/ncalayer-client.js" type="application/javascript"></script>
     <script src="iinValidator.js" type="application/javascript"></script>
     <script src="ecp.js" type="application/javascript"></script>
     <script src="connectAndSign.js" type="application/javascript"></script>
-    <script src="index.js" type="application/javascript"></script>
+    <script src="index.js" type="application/javascript" defer></script>
 </head>
 
 <body class="min-h-screen bg-gray-50 text-gray-800">
-    <div class="max-w-4xl mx-auto px-4 py-10">
-        <div class="mb-8">
+    <main class="max-w-4xl mx-auto px-4 py-10">
+
+        <header class="mb-8">
             <h1 class="text-2xl font-bold text-gray-900 mb-2">EDS Extractor</h1>
             <p class="text-sm text-gray-500 leading-relaxed">
-                <span class="font-medium text-gray-700">EDS</span> (Электронная цифровая подпись) is Kazakhstan's
-                <span class="font-medium text-gray-700">Electronic Digital Signature</span> — a PKI-based certificate
-                issued by the National Certification Authority (NCA)
+                <span class="font-medium text-gray-700">ЭЦП (Электронная цифровая подпись)</span> —
+                PKI-сертификат, выданный <span class="font-medium text-gray-700">Национальным Удостоверяющим Центром (НУЦ)</span>
+                Республики Казахстан. Используется для подтверждения личности и подписания документов.
             </p>
-        </div>
+        </header>
 
-        <!-- EDS Section -->
-        <div class="card">
-            <h2 class="card-title">Extract EDS Certificate</h2>
+        <!-- EDS Certificate Section -->
+        <section aria-labelledby="extract-heading" class="card">
+            <h2 id="extract-heading" class="card-title">Извлечение ЭЦП-сертификата</h2>
             <div class="flex items-center gap-3">
-                <input id="iin" type="text" placeholder="Enter IIN"
-                    class="flex-1 border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" />
-                <button id="select-btn" class="btn-primary">Select EDS file</button>
+                <label for="iin" class="sr-only">ИИН</label>
+                <input
+                    id="iin"
+                    type="text"
+                    placeholder="Введите ИИН"
+                    autocomplete="off"
+                    inputmode="numeric"
+                    maxlength="12"
+                    class="flex-1 border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                />
+                <button id="select-btn" class="btn-primary">Выбрать файл ЭЦП</button>
             </div>
-            <p id="error" class="mt-2 text-sm text-red-500 hidden">Incorrect IIN</p>
-        </div>
+            <p id="error" role="alert" class="mt-2 text-sm text-red-500 hidden">Неверный ИИН</p>
+        </section>
 
         <!-- XML Output -->
-        <div id="xml-container" class="card hidden">
-            <h2 class="card-title">XML</h2>
-            <textarea name="xml" id="xml" rows="8" disabled class="textarea-disabled"></textarea>
-        </div>
+        <section id="xml-container" aria-labelledby="xml-heading" class="card hidden">
+            <h2 id="xml-heading" class="card-title">XML</h2>
+            <textarea name="xml" id="xml" rows="8" disabled
+                aria-label="Подписанный XML" class="textarea-disabled"></textarea>
+        </section>
 
         <!-- Base64 Output -->
-        <div id="base64-container" class="card hidden">
-            <h2 class="card-title">Base64</h2>
-            <textarea name="base64" id="base64" rows="8" disabled class="textarea-disabled"></textarea>
-        </div>
+        <section id="base64-container" aria-labelledby="base64-heading" class="card hidden">
+            <h2 id="base64-heading" class="card-title">Base64</h2>
+            <textarea name="base64" id="base64" rows="8" disabled
+                aria-label="XML в формате Base64" class="textarea-disabled"></textarea>
+        </section>
 
-        <!-- String Signer Section -->
-        <div id="string-signer-container" class="card !mb-0">
-            <h2 class="card-title">Sign String</h2>
+        <!-- JSON Signer Section -->
+        <section id="string-signer-container" aria-labelledby="signer-heading" class="card !mb-0">
+            <h2 id="signer-heading" class="card-title">Подписание JSON</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
-                    <label class="block text-xs text-gray-500 mb-1">Input JSON</label>
-                    <textarea name="string-to-sign" id="string-to-sign" rows="8" class="textarea-input"></textarea>
+                    <label for="string-to-sign" class="block text-xs text-gray-500 mb-1">Входной JSON</label>
+                    <textarea name="string-to-sign" id="string-to-sign" rows="8"
+                        aria-label="JSON для подписания" class="textarea-input"></textarea>
                 </div>
                 <div>
-                    <label class="block text-xs text-gray-500 mb-1">Signed JSON (Base64)</label>
-                    <textarea name="base64" id="signedStringBase64" rows="8" disabled class="textarea-disabled"></textarea>
+                    <label for="signedStringBase64" class="block text-xs text-gray-500 mb-1">Подписанный JSON (Base64)</label>
+                    <textarea name="base64" id="signedStringBase64" rows="8" disabled
+                        aria-label="Подписанный JSON в формате Base64" class="textarea-disabled"></textarea>
                 </div>
             </div>
-            <button id="btn-sign-string" class="btn-primary">Sign JSON</button>
-        </div>
-    </div>
+            <button id="btn-sign-string" class="btn-primary">Подписать JSON</button>
+        </section>
+
+    </main>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "EDS Extractor",
+        "description": "Инструмент для извлечения ЭЦП-сертификата и подписания JSON-данных через NCALayer (НУЦ Казахстана).",
+        "applicationCategory": "SecurityApplication",
+        "operatingSystem": "Any",
+        "inLanguage": "ru"
+    }
+    </script>
 </body>
 
 </html>
